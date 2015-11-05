@@ -104,3 +104,51 @@ void gtk_im_context_set_client_window (GtkIMContext *context,
 
 
 </pre>
+<br />sudo apt-get install build-essential
+<br />sudo apt-get install libgtk2.0-dev
+<br />gcc -shared -o libsublime-imfix.so sublime-imfix.c `pkg-config --libs --cflags gtk+-2.0` -fPIC
+<br />LD_PRELOAD=./libsublime-imfix.so subl
+<br />sudo mv libsublime-imfix.so /opt/sublime_text/
+<br />sudo gedit /usr/bin/subl
+<br />
+<pre>
+change
+
+#!/bin/sh
+
+exec /opt/sublime_text/sublime_text "$@"
+
+to
+
+>#!/bin/sh
+
+>LD_PRELOAD=/opt/sublime_text/libsublime-imfix.so exec /opt/sublime_text/sublime_text "$@"
+</pre>
+<br />sudo gedit /usr/share/applications/sublime_text.desktop
+<br />
+<pre>
+in[Desktop Entry]
+
+Exec=/opt/sublime_text/sublime_text %F
+
+to
+
+Exec=bash -c "LD_PRELOAD=/opt/sublime_text/libsublime-imfix.so exec /opt/sublime_text/sublime_text %F"
+
+in[Desktop Action Window]
+
+Exec=/opt/sublime_text/sublime_text -n
+
+to
+
+Exec=bash -c "LD_PRELOAD=/opt/sublime_text/libsublime-imfix.so exec /opt/sublime_text/sublime_text -n"
+
+in[Desktop Action Document]
+
+Exec=/opt/sublime_text/sublime_text --command new_file
+
+to
+
+Exec=bash -c "LD_PRELOAD=/opt/sublime_text/libsublime-imfix.so exec /opt/sublime_text/sublime_text --command new_file"
+</pre>
+<br />enjoy it!
