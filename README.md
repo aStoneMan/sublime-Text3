@@ -9,3 +9,7 @@ how to install a sublime Text3 for PHPer
 <br />IMESupport
 <br />SublimeLinter
 <br />Bracket Highlighter
+<br />converttoutf8
+
+<br />we could use SVN to manage your code
+<br />sudo apt-get install RapidSVN
